@@ -1,5 +1,18 @@
 # config/packages/sonata_admin.yaml
 
+sonata_admin:
+    show_mosaic_button: false
+    security:
+        handler: sonata.admin.security.handler.role
+    title: 'sistema'
+    title_logo: build/images/web-logo.png
+    dashboard:
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+    templates:
+        dashboard: '@SonataAdmin/Core/dashboard.html.twig'
+        #dashboard: 'dashboard.html.twig'
+
 sonata_block:
     blocks:
         # enable the SonataAdminBundle block

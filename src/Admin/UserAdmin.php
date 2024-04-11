@@ -18,21 +18,7 @@ final class UserAdmin extends AbstractAdmin
     {
         $form
                 ->add('email', TextType::class)
-                ->add('roles', EntityType::class, [
-                    'class' => Role::class,
-                    'choice_label' => 'name',
-                    'multiple' => true,
-                    'expanded' => true,
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('t')
-                            ->orderBy('t.name', 'ASC');
-                    },
-                    'attr' => array(
-                        'required' => 'true',
-                        'data-select2-placeholder' => 'Seleccionar rol...'
-                    )
-
-                ]);
+                ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
