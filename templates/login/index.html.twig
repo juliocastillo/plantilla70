@@ -1,24 +1,63 @@
-{% extends 'base.html.twig' %}
+{# templates/security/login.html.twig #}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
 
-{% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+{% block sonata_nav %}
+{% endblock sonata_nav %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
+{% block logo %}
+{% endblock logo %}
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
+{% block sonata_left_side %}
+{% endblock sonata_left_side %}
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"> #}
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+{% block body_attributes %}class="sonata-bc login-page"{% endblock %}
 
-        
-        <button type="submit">login</button>
-    </form>
-{% endblock %}
+{% block sonata_wrapper %}
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ path('sonata_admin_dashboard') }}">
+                <span>Login</span>
+            </a>
+        </div>
+        <div class="login-box-body">
+            {% block sonata_user_login_form %}
+                {% block sonata_user_login_error %}
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                {% endblock %}
+                {% for label, flashes in app.session.flashbag.all %}
+                    {% for flash in flashes %}
+                        <div class="alert alert-{{ label }}">
+                            {{ flash }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <p class="login-box-msg">{{ 'Authentication'|trans }}</p>
+                <form action="{{ path("app_login") }}" method="post" role="form">
+
+
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Email"/>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control"id="password" name="_password" required="required" placeholder="Password"/>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                        </div>
+                    </div>
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock sonata_wrapper %}
